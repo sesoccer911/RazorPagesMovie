@@ -19,11 +19,24 @@ namespace RazorPagesMovie.Pages.Movies
             _context = context;
         }
 
-        public IList<Movie> Movie { get;set; }
+        public IList<Movie> Movie { get;set; } //creating the framework for a text box that users can use to search the DB
+        [BindProperty(SupportsGet = true)]
+        public string SearchString { get; set; }
+        // Requires using Microsoft.AspNetCore.Mvc.Rendering;
+        public SelectList Genres { get; set; }
+        [BindProperty(SupportsGet = true)]
+        public string MovieGenre { get; set; }
 
-        public async Task OnGetAsync()
+        public async Task OnGetAsync() //creates a linq query to select the movies from the search
         {
-            Movie = await _context.Movie.ToListAsync();
+            var movies = from m in _context.Movie
+                         select m;
+            if (!string.IsNullOrEmpty(SearchString))
+            {
+                movies = movies.Where(s => s.Title.Contains(SearchString)); //lambda used to filter the search string
+            }
+
+            Movie = await movies.ToListAsync();
         }
     }
 }

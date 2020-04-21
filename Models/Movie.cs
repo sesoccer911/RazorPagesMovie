@@ -16,5 +16,19 @@ namespace RazorPagesMovie.Models
 
         [Column(TypeName = "decimal(18, 2)")] //clearning up the presentation of the data, mapping the price value in the db
         public decimal Price { get; set; }
+        public string Rating { get; set; }
+
+        [RegularExpression(@"^[A-Z]+[a-zA-Z""'\s-]*$")]
+        [Required]
+        [StringLength(30)]
+        public string Genre { get; set; }
+
+        [RegularExpression(@"^[A-Z]+[a-zA-Z0-9""'\s-]*$")]
+        [StringLength(5)]
+        [Required]
+        public string Rating { get; set; }
+
     }
+
+}
 }
